@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-sales-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-sales-web
+  template:
+    metadata:
+      labels:
+        app: ai-sales-web
+    spec:
+      containers:
+      - name: ai-sales-web-container
+        image: 874128104192.dkr.ecr.us-west-2.amazonaws.com/ai-sales-tool:ai-sales-web
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NEXT_PUBLIC_AI_SALES_API_URL
+          value: http://ai-sales-api-service

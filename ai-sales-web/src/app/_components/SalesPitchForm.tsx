@@ -35,6 +35,10 @@ export default function SalesPitchForm() {
       );
       const json = await response.json();
 
+      // clear input
+      setProduct('');
+
+      // refresh the page
       router.refresh();
     } catch (error) {
       console.error('Error:', error);
@@ -45,7 +49,7 @@ export default function SalesPitchForm() {
   };
 
   return (
-    <Box sx={{width: 'min(80vw, 500px)'}}>
+    <Box sx={{ width: 'min(80vw, 500px)' }}>
       <form onSubmit={handleSubmit}>
         <TextField
           label="Product"
