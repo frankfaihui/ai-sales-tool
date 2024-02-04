@@ -1,0 +1,23 @@
+version: '3'
+services:
+  nextjs-app:
+    build: ./ai-sales-web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - flask-app
+    environment:
+      - NEXT_PUBLIC_AI_SALES_API_URL=${NEXT_PUBLIC_AI_SALES_API_URL}
+  flask-app:
+    build: ./ai-sales-api
+    ports:
+      - "8080:5000"
+    depends_on:
+      - mongo
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MONGO_URI=${MONGO_URI}
+  mongo:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"

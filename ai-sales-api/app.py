@@ -4,21 +4,35 @@ from bson.objectid import ObjectId
 from openai import OpenAI
 from flask_cors import CORS
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 # for development, allow all origins
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/ai_sales'
-mongo = PyMongo(app)
+# load the environment variables
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'test')
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/sales-pitches')
 
+# connect to the mongo database
+app.config['MONGO_URI'] = MONGO_URI
+mongo = PyMongo(app)
+db_sales_pitches = mongo.db.sales_pitches
+
+# create an instance of the OpenAI API
 client = OpenAI(
-    api_key='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',
+    api_key=OPENAI_API_KEY,
 )
+
+@app.route('/', methods=['GET'])
+def health_check():
+    return jsonify({'message': 'Welcome to the AI Sales API', 'status': app.config['MONGO_URI']})
 
 @app.route('/sales-pitches', methods=['GET'])
 def get_sales_pitches():
-    items = list(mongo.db.sales_pitches.find().sort('timestamp', -1).limit(10))
+    items = list(db_sales_pitches.find()
+                 .sort('timestamp', -1)
+                 .limit(10))
 
     return jsonify({'data': list(map(convert_id, items))})
 
@@ -48,13 +62,13 @@ def create_sales_pitch():
         'timestamp': datetime.now().utcnow(),
     }
 
-    result = mongo.db.sales_pitches.insert_one(new_item)
+    result = db_sales_pitches.insert_one(new_item)
     return jsonify({'_id': str(result.inserted_id), 'content': new_item['content']}), 201
 
 
 @app.route('/sales-pitches/<id>', methods=['DELETE'])
 def delete_sales_pitch(id):
-    result = mongo.db.sales_pitches.delete_one({'_id': ObjectId(id)})
+    result = db_sales_pitches.delete_one({'_id': ObjectId(id)})
 
     if result.deleted_count > 0:
         return jsonify({'message': 'Item deleted successfully'}), 200
@@ -62,4 +76,4 @@ def delete_sales_pitch(id):
         return jsonify({'message': 'Item not found'}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(port=8080)

@@ -9,7 +9,7 @@ export default function SalesPitchListItem(props: any) {
 
   const handleClick = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8080/sales-pitches/${pitch._id}`, { method: 'DELETE' });
+      const response = await fetch(`/sales-pitches/${pitch._id}`, { method: 'DELETE' });
       const json = await response.json();
       route.refresh();
     } catch (error) {

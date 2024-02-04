@@ -3,8 +3,13 @@ import SalesPitchListItem from "./SalesPitchListItem";
 
 export default async function SalesPitchList() {
 
-  const response = await fetch('http://127.0.0.1:8080/sales-pitches', { cache: 'no-store' });
-  const json = await response.json();
+  let json;
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_AI_SALES_API_URL}/sales-pitches`, { cache: 'no-store' });
+    json = await response.json();
+  } catch (error) {
+    return null;
+  }
 
   return (
     <div>
