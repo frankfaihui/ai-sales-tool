@@ -1,11 +1,12 @@
 import { Typography } from "@mui/material";
 import SalesPitchListItem from "./SalesPitchListItem";
+import config from "@/app/config";
 
 export default async function SalesPitchList() {
 
   let json;
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_AI_SALES_API_URL}/sales-pitches`, { cache: 'no-store' });
+    const response = await fetch(`${config.AI_SALES_API_URL}/sales-pitches`, { cache: 'no-store' });
     json = await response.json();
   } catch (error) {
     return null;
