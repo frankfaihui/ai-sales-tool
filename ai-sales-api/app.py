@@ -11,8 +11,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # load the environment variables
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'test')
-MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/ai_sales')
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'test_key')
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/ai_sales_tool')
 
 # connect to the mongo database
 app.config['MONGO_URI'] = MONGO_URI
