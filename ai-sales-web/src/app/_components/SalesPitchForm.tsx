@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, SelectProps, TextFieldProps } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, SelectProps, TextFieldProps } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
 
@@ -24,7 +24,7 @@ export default function SalesPitchForm() {
 
     try {
       setLoading(true);
-      const response = await fetch(`http://127.0.0.1:8080/sales-pitches`,
+      const response = await fetch(`/sales-pitches`,
         {
           method: 'POST',
           body: JSON.stringify({ product, audience }),
