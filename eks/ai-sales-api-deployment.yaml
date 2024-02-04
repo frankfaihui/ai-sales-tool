@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-sales-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-sales-api
+  template:
+    metadata:
+      labels:
+        app: ai-sales-api
+    spec:
+      containers:
+      - name: ai-sales-api-container
+        image: 874128104192.dkr.ecr.us-west-2.amazonaws.com/ai-sales-tool:ai-sales-api
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGO_URI
+          value: mongodb://mongodb-service:27017/ai_sales_tool
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ai-sales-tool-secret
+              key: OPENAI_API_KEY

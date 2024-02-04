@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { TextField, Select, MenuItem, FormControl, InputLabel, SelectProps, TextFieldProps } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, InputLabel, SelectProps, TextFieldProps, Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
 
@@ -35,6 +35,10 @@ export default function SalesPitchForm() {
       );
       const json = await response.json();
 
+      // clear input
+      setProduct('');
+
+      // refresh the page
       router.refresh();
     } catch (error) {
       console.error('Error:', error);
@@ -45,36 +49,38 @@ export default function SalesPitchForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        label="Product"
-        variant="outlined"
-        fullWidth
-        value={product}
-        onChange={handleProductChange}
-        margin="normal"
-        required
-        disabled={loading}
-      />
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Audience</InputLabel>
-        <Select
-          value={audience}
-          onChange={handleAudienceChange}
-          label="Audience"
+    <Box sx={{ width: 'min(80vw, 500px)' }}>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Product"
+          variant="outlined"
+          fullWidth
+          value={product}
+          onChange={handleProductChange}
+          margin="normal"
+          required
           disabled={loading}
-        >
-          <MenuItem value="consumer">Consumer</MenuItem>
-          <MenuItem value="business">Business</MenuItem>
-          {/* Add more audience options as needed */}
-        </Select>
-      </FormControl>
+        />
 
-      <LoadingButton type="submit" variant="contained" color="primary" loading={loading}>
-        Generate
-      </LoadingButton>
-    </form>
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Audience</InputLabel>
+          <Select
+            value={audience}
+            onChange={handleAudienceChange}
+            label="Audience"
+            disabled={loading}
+          >
+            <MenuItem value="consumer">Consumer</MenuItem>
+            <MenuItem value="business">Business</MenuItem>
+            {/* Add more audience options as needed */}
+          </Select>
+        </FormControl>
+
+        <LoadingButton type="submit" variant="contained" color="primary" loading={loading}>
+          Generate
+        </LoadingButton>
+      </form>
+    </Box>
   );
 }
 
