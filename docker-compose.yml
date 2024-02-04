@@ -11,7 +11,7 @@ services:
   flask-app:
     build: ./ai-sales-api
     ports:
-      - "8080:5000"
+      - "8080:8080"
     depends_on:
       - mongo
     environment:

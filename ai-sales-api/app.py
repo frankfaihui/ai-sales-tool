@@ -12,7 +12,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # load the environment variables
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'test')
-MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/sales-pitches')
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/ai_sales')
 
 # connect to the mongo database
 app.config['MONGO_URI'] = MONGO_URI
@@ -26,8 +26,9 @@ client = OpenAI(
 
 @app.route('/', methods=['GET'])
 def health_check():
-    return jsonify({'message': 'Welcome to the AI Sales API', 'status': app.config['MONGO_URI']})
+    return jsonify({'message': 'Welcome to the AI Sales API', 'status': 'OK'})
 
+# get a list of sales pitches
 @app.route('/sales-pitches', methods=['GET'])
 def get_sales_pitches():
     items = list(db_sales_pitches.find()
@@ -40,6 +41,7 @@ def convert_id(item):
     item['_id'] = str(item['_id'])
     return item
 
+# create a new sales pitch
 @app.route('/sales-pitches', methods=['POST'])
 def create_sales_pitch():
     body = request.json
@@ -65,7 +67,7 @@ def create_sales_pitch():
     result = db_sales_pitches.insert_one(new_item)
     return jsonify({'_id': str(result.inserted_id), 'content': new_item['content']}), 201
 
-
+# delete a sales pitch
 @app.route('/sales-pitches/<id>', methods=['DELETE'])
 def delete_sales_pitch(id):
     result = db_sales_pitches.delete_one({'_id': ObjectId(id)})
@@ -76,4 +78,4 @@ def delete_sales_pitch(id):
         return jsonify({'message': 'Item not found'}), 404
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=8080, host='0.0.0.0')
