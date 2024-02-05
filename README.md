@@ -65,6 +65,8 @@ Make sure you have the following installed on your machine:
 
     The web application will be available at `http://localhost:3000`.
 
+    The api will be available at `http://localhost:3001`.
+
 ## Endpoints
 
 ### 1. Health Check
@@ -75,7 +77,7 @@ Make sure you have the following installed on your machine:
 - **Usage:**
 
    ```bash
-   curl http://localhost:8080/
+   curl http://localhost:3001/
    ```
 
 ### 2. Login
