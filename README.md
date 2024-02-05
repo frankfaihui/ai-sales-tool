@@ -63,4 +63,69 @@ Make sure you have the following installed on your machine:
     docker-compose up
     ```
 
-    The application will be available at `http://localhost:3000`.
+    The web application will be available at `http://localhost:3000`.
+
+## Endpoints
+
+### 1. Health Check
+
+- **Endpoint:** `/`
+- **Method:** `GET`
+- **Description:** Check the health status of the application.
+- **Usage:**
+
+   ```bash
+   curl http://localhost:8080/
+   ```
+
+### 2. Login
+
+- **Endpoint:** `/login`
+- **Method:** `POST`
+- **Description:** Log in to the application.
+- **Request Body:**
+
+  ```json
+  {
+    "username": "any_username",
+    "password": "any_password"
+  }
+  ```
+
+## Endpoints below require a valid access token.
+
+put the access token obtained from login in the header.
+
+**Headers:**
+
+  ```json
+   {
+      "Authorization": "Bearer your_access_token"
+   }
+   ```
+
+### 3. Get Sales Pitches
+
+- **Endpoint:** `/sales-pitches`
+- **Method:** `GET`
+- **Description:** Get a list of sales pitches.
+
+### 4. Create a Sales Pitch
+
+- **Endpoint:** `/sales-pitches`
+- **Method:** `POST`
+- **Description:** Create a new sales pitch.
+- **Request Body:**
+
+  ```json
+  {
+    "product": "product",
+    "audience": "audience"
+  }
+  ```
+
+### 5. Delete a Sales Pitch
+
+- **Endpoint:** `/sales-pitches/<id>`
+- **Method:** `DELETE`
+- **Description:** Delete a sales pitch by id.
