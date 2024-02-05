@@ -18,7 +18,7 @@ export default function SalesPitchListItem(props: any) {
   }
 
   return (
-    <Card sx={{ marginTop: '20px', marginBottom: '20px', maxWidth: 'min(80vw, 800px)' }}>
+    <Card sx={{ marginTop: '20px', marginBottom: '20px', width: 'min(80vw, 800px)' }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Product: {pitch.product}
