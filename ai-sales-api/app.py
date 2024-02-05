@@ -7,6 +7,8 @@ from datetime import datetime
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
+# ------------------------------- set up app and configuration -------------------------------
+
 app = Flask(__name__)
 # for development, allow all origins
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -26,6 +28,8 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = 'test_secret_key'
 jwt = JWTManager(app)
+
+# ------------------------------- router start -------------------------------
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -117,6 +121,8 @@ def login():
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
+
+# ------------------------------- start application -------------------------------
 
 if __name__ == '__main__':
     app.run(port=8080, host='0.0.0.0')
