@@ -81,7 +81,7 @@ export default function SalesPitchForm() {
           </Select>
         </FormControl>
 
-        <LoadingButton type="submit" variant="contained" color="primary" loading={loading}>
+        <LoadingButton type="submit" variant="contained" color="primary" fullWidth loading={loading}>
           Generate
         </LoadingButton>
       </form>
