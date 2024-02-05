@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <Typography variant="h4" color="black">Sales Pitch</Typography>
+      <Typography variant="h4" color="black" mb="20px">Sales Pitch</Typography>
       <SalesPitchForm />
       <SalesPitchList />
     </main>
