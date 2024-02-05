@@ -107,3 +107,8 @@ a {
     color-scheme: dark;
   }
 }
+
+/* hide the error box */
+nextjs-portal {
+  display: none;
+}

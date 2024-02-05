@@ -1,6 +1,7 @@
 'use client';
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SalesPitchListItem(props: any) {
   const { pitch } = props;
@@ -10,9 +11,13 @@ export default function SalesPitchListItem(props: any) {
   const handleClick = async () => {
     try {
       const response = await fetch(`/sales-pitches/${pitch._id}`, { method: 'DELETE' });
-      const json = await response.json();
+
+      if (response.status !== 200) {
+        throw new Error('Failed to delete');
+      }
       route.refresh();
     } catch (error) {
+      toast.error('Failed to delete', { autoClose: 2000 });
       console.error('Error:', error);
     }
   }
