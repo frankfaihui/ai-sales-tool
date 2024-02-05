@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TextField, Select, MenuItem, FormControl, InputLabel, SelectProps, TextFieldProps, Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function SalesPitchForm() {
   const [product, setProduct] = useState('');
@@ -33,7 +34,10 @@ export default function SalesPitchForm() {
           }
         }
       );
-      const json = await response.json();
+
+      if (response.status !== 201) {
+        throw new Error('Failed to create');
+      }
 
       // clear input
       setProduct('');
@@ -41,6 +45,7 @@ export default function SalesPitchForm() {
       // refresh the page
       router.refresh();
     } catch (error) {
+      toast.error('Failed to Create', { autoClose: 2000 });
       console.error('Error:', error);
     }
     finally {
@@ -76,7 +81,7 @@ export default function SalesPitchForm() {
           </Select>
         </FormControl>
 
-        <LoadingButton type="submit" variant="contained" color="primary" loading={loading}>
+        <LoadingButton type="submit" variant="contained" color="primary" fullWidth loading={loading}>
           Generate
         </LoadingButton>
       </form>
