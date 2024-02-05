@@ -44,7 +44,7 @@ export default function Page() {
   return (
     <main className={styles.main}>
       <Box sx={{ width: 'min(80vw, 500px)' }}>
-        <Typography variant="h5" component="div" gutterBottom>
+        <Typography variant="h5" component="div" gutterBottom color="black">
           Login to AI Sales Tool
         </Typography>
         <form onSubmit={handleSubmit}>

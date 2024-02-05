@@ -26,7 +26,7 @@ export default async function SalesPitchList() {
 
   return (
     <div>
-      <Typography variant="h5" mt='50px'>Sales Pitch List</Typography>
+      <Typography variant="h5" mt='50px' color="black">Sales Pitch List</Typography>
       {json.data.map((pitch: any) => (
         <SalesPitchListItem key={pitch._id} pitch={pitch} />
       ))}
