@@ -1,8 +1,8 @@
 build-ai-sales-api:
-	cd ../ai-sales-api && docker build . -t ai-sales-api
+	cd ../ai-sales-api && docker build . -t ai-sales-api --no-cache
 
 build-ai-sales-web:
-	cd ../ai-sales-web && docker build . -t ai-sales-web
+	cd ../ai-sales-web && docker build . -t ai-sales-web --no-cache
 
 push-ai-sales-api:
 	docker tag ai-sales-api:latest 874128104192.dkr.ecr.us-west-2.amazonaws.com/ai-sales-tool:ai-sales-api
