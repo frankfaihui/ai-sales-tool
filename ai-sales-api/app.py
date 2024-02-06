@@ -6,6 +6,8 @@ from flask_cors import CORS
 from datetime import datetime
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from langchain.prompts.chat import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
 # ------------------------------- set up app and configuration -------------------------------
 
@@ -24,6 +26,7 @@ db_sales_pitches = mongo.db.sales_pitches
 
 # create an instance of the OpenAI API
 client = OpenAI(api_key=OPENAI_API_KEY)
+chat_model = ChatOpenAI(openai_api_key=OPENAI_API_KEY)
 
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = 'test_secret_key'
@@ -66,21 +69,21 @@ def create_sales_pitch():
 
     current_user = get_jwt_identity()
 
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                'role': 'system',
-                'content': f'Create a sales pitch for {body["product"]} targeting {body["audience"]}. Keep it under 100 words',
-            }
-        ],
-        max_tokens=200,
-        model='gpt-3.5-turbo',
-    )
+    template = "You are a creative assistant that create sales pitches for products"
+    human_template = "Create a sales pitch for {product} targeting {audience} Keep it under 100 words"
+
+    chat_prompt = ChatPromptTemplate.from_messages([
+        ("system", template),
+        ("human", human_template),
+    ])
+
+    messages = chat_prompt.format_messages(product="shampoo", audience="consumer")
+    prediction = chat_model.predict_messages(messages)
 
     new_item = {
         'product': body['product'],
         'audience': body['audience'],
-        'content': chat_completion.choices[0].message.content,
+        'content': prediction.content,
         'created_by': current_user,
         'timestamp': datetime.now().utcnow(),
     }
