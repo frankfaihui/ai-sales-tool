@@ -2,8 +2,6 @@
 
 Welcome to ai sales tool Project! This repository showcases an OpenAI API, a flask application, a next.js app, MongoDB, and uses Docker Compose for easy setup.
 
-A working demo can be found at [http://ai-sales-tool.devfaihui.link/](http://ai-sales-tool.devfaihui.link/)
-
 ## Overview
 
 ### Sub-Projects
